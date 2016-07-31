@@ -82,6 +82,7 @@ module Main
           if HibikiProgramV2
               .where(access_id: program.access_id)
               .where(episode_id: program.episode_id)
+              .where(episode_type: program.episode_type)
               .first
             next
           end
@@ -89,6 +90,7 @@ module Main
           p = HibikiProgramV2.new
           p.access_id = program.access_id
           p.episode_id = program.episode_id
+          p.episode_type = program.episode_type
           p.title = program.title
           p.episode_name = program.episode_name
           p.cast = program.cast

@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20170505142758) do
   create_table "hibiki_program_v2s", force: true do |t|
     t.string   "access_id",    limit: 100, null: false
     t.integer  "episode_id",               null: false
+    t.integer  "episode_type",             null: false
     t.string   "title",        limit: 250, null: false
     t.string   "episode_name", limit: 250, null: false
     t.string   "cast",         limit: 250, null: false
@@ -70,7 +71,7 @@ ActiveRecord::Schema.define(version: 20170505142758) do
     t.datetime "updated_at",               null: false
   end
 
-  add_index "hibiki_program_v2s", ["access_id", "episode_id"], name: "access_id", unique: true, using: :btree
+  add_index "hibiki_program_v2s", ["access_id", "episode_id", "episode_type"], name: "access_id", unique: true, using: :btree
 
   create_table "hibiki_programs", force: true do |t|
     t.string   "title",       limit: 250, null: false

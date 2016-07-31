@@ -3,7 +3,7 @@ require 'time'
 require 'pp'
 
 module Hibiki
-  class Program < Struct.new(:access_id, :episode_id, :title, :episode_name, :cast)
+  class Program < Struct.new(:access_id, :episode_id, :episode_type, :title, :episode_name, :cast)
   end
 
   class Scraping
@@ -34,17 +34,30 @@ module Hibiki
         sleep 1
         page += 1
       end while raws.size == 8
-      programs
+      programs.flatten
     end
 
     def parse_program(raw)
-      Program.new(
+      result = []
+      result.push(Program.new(
         raw['access_id'],
         raw['latest_episode_id'],
+        HibikiProgramV2.episode_types[:normal],
         raw['name'],
         raw['latest_episode_name'],
         raw['cast'],
-      )
+      ))
+      if raw['additional_video_flg']
+        result.push(Program.new(
+          raw['access_id'],
+          raw['latest_episode_id'],
+          HibikiProgramV2.episode_types[:additional],
+          raw['name'] + '_楽屋裏',
+          raw['latest_episode_name'],
+          raw['cast'],
+        ))
+      end
+      result
     end
   end
 end

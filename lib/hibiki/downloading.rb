@@ -31,7 +31,7 @@ module Hibiki
         program.state = HibikiProgramV2::STATE[:not_downloadable]
         return
       end
-      url = get_m3u8_url(infos['episode']['video']['id'])
+      url = get_m3u8_url(get_video_id(program, infos))
 
       prepare_working_dir(program)
       path = process_m3u8(program, url)
@@ -47,6 +47,15 @@ module Hibiki
     def get_infos(program)
       res = get_api("https://vcms-api.hibiki-radio.jp/api/v1/programs/#{program.access_id}")
       infos = JSON.parse(res.body)
+    end
+
+    def get_video_id(program, infos)
+      case program.episode_type.to_sym
+      when :additional
+        infos['episode']['additional_video']['id']
+      else
+        infos['episode']['video']['id']
+      end
     end
 
     def get_m3u8_url(video_id)

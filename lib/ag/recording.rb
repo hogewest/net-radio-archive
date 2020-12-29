@@ -3,7 +3,7 @@ require 'fileutils'
 
 module Ag
   class Recording
-    AGQR_STREAM_URL = 'https://fms2.uniqueradio.jp/agqr10/aandg1.m3u8'
+    AGQR_STREAM_URL = 'https://fms2.uniqueradio.jp/agqr10/aandg3.m3u8'
     CH_NAME = 'ag'
 
     def record(job)
